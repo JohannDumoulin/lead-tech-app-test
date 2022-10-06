@@ -19,6 +19,12 @@
         <% }) %>
       </ul>
 
+    <a href="/zip?tags=<%= tagsParameter %>" class="btn btn-primary">Zipper le résulat</a>
+
+    <div>
+      <a href="<%= zipUrl %>">Télécharger le ZIP</a>
+    </div>
+
     <% } else { %>
       <div class="alert alert-info"><strong>No results</strong></div>
     <% } %>
