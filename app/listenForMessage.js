@@ -5,6 +5,7 @@ const request = require('request');
 const ZipStream = require('zip-stream');
 const { Storage } = require('@google-cloud/storage');
 const fileNameDb = require("./fileNameDb");
+const { db } = require("./database");
 
 const makeId = (length) => {
     let result = '';
@@ -73,10 +74,13 @@ module.exports = async function main() {
 
         const filename = await createZip(message.data.toString())
 
-        console.log('name', message.data.toString())
-
         fileNameDb[message.data.toString()] = filename
         console.log('zip ok')
+
+        const ref = db.ref(`johann/test/${message.data.toString()}`)
+        await ref.set({
+            zip: filename,
+        })
 
         message.ack();
     };

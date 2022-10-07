@@ -19,10 +19,21 @@
         <% }) %>
       </ul>
 
-    <a href="/zip?tags=<%= tagsParameter %>" class="btn btn-primary">Zipper le résulat</a>
+    <button class="btn btn-primary js-google-login">Log in with Google</button>
+
+    <br>
+
+    <button class="btn btn-primary js-ajax-zip" data-tags="<%= tagsParameter %>">
+      Zipper le résulat
+    </button>
+
+    <br>
+
+    <a class="btn btn btn-primary js-download-zip">Télécharger le ZIP</a>
 
     <div>
-      <a href="<%= zipUrl %>">Télécharger le ZIP</a>
+      <p>Zips précédents</p>
+      <ul class="js-zip-list" style="display: flex; flex-direction: column"></ul>
     </div>
 
     <% } else { %>

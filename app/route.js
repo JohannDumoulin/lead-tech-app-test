@@ -30,20 +30,6 @@ function route(app) {
       return res.render('index', ejsLocalVariables);
     }
 
-    console.log(fileNameDb)
-    ejsLocalVariables.zipUrl = ''
-    if (fileNameDb[tags]) {
-      const options = {
-        action: 'read',
-        expires: +Date.now() + (2*24*3600*1000)
-      };
-      const signedUrls = await storage
-          .bucket('dmii2022bucket')
-          .file(fileNameDb[tags])
-          .getSignedUrl(options);
-      console.log(signedUrls)
-      ejsLocalVariables.zipUrl = signedUrls
-    }
     // get photos from flickr public feed api
     return photoModel
       .getFlickrPhotos(tags, tagmode)
@@ -62,7 +48,30 @@ function route(app) {
 
     pubSub.publishMessage(tags)
 
-res.end('Zip demandé')
+    res.end('Zip demandé')
+  })
+
+  app.get('/getZipUrl', async (req, res) => {
+    if (!req.query.file) {
+      res.status(400)
+      res.end('missing parameter.')
+    }
+    const options = {
+      action: 'read',
+      expires: +Date.now() + (2*24*3600*1000)
+    };
+    try {
+      const [signedUrl] = await storage
+          .bucket('dmii2022bucket')
+          .file(req.query.file)
+          .getSignedUrl(options);
+      res.status(200)
+      res.end(signedUrl)
+    } catch (e) {
+      res.status(500)
+      console.error(e)
+      res.end('error')
+    }
   })
 }
 

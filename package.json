@@ -19,6 +19,7 @@
     "@google-cloud/pubsub": "^3.2.0",
     "ejs": "^3.1.8",
     "express": "~4.16.2",
+    "firebase-admin": "^11.1.0",
     "got": "^8.0.1",
     "nanoid": "^4.0.0",
     "request": "^2.88.2",
